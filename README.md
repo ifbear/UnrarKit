@@ -160,13 +160,6 @@ Using either method above, you can call `[progress cancel]` to stop the operatio
 
 To open in Xcode, use the [UnrarKit.xcworkspace](UnrarKit.xcworkspace) file, which includes the other projects.
 
-## The example app
-
-Included in the source repo is a project named "UnrarExample", that builds as part of the main solution. It's only ever verified to run in the simulator, but if you provide Team info, it should probably also run on-device.
-
-For large file extraction, the tool uses the `rar` executable. You may need to right-click and open it in Finder to get through Gatekeeper the first time you do so.
-
-
 # Documentation
 
 Full documentation for the project is available on [CocoaDocs](http://cocoadocs.org/docsets/UnrarKit).
@@ -259,8 +252,6 @@ Before pushing a build, you must:
     2. Makes an annotated tag whose message contains the release notes entered in Step 1
 
 Once that's done, you can call `git push --follow-tags` [<sup id=a1>1</sup>](#f1), and let [Travis CI](https://travis-ci.org/abbeycode/UnrarKit/builds) take care of the rest.
-
-_Note: if the push to CocoaPods fails in Travis CI, it's almost certainly because the Trunk token has expired. Follow [this Stack Overflow answer](https://stackoverflow.com/a/31511532/105717)'s instructions to fix it. Next time, try `pod trunk me`_
 
 # Credits
 

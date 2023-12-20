@@ -59,7 +59,10 @@ class Archive:public File
 #endif
   public:
     Archive(RAROptions *InitCmd=NULL);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsuggest-destructor-override"
     ~Archive();
+#pragma clang diagnostic pop
     static RARFORMAT IsSignature(const byte *D,size_t Size);
     bool IsArchive(bool EnableBroken);
     size_t SearchBlock(HEADER_TYPE HeaderType);
@@ -89,12 +92,15 @@ class Archive:public File
     void GetRecoveryInfo(bool Required,int64 *Size,int *Percent);
 #endif
 #ifdef USE_QOPEN
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsuggest-override"
     bool Open(const wchar *Name,uint Mode=FMF_READ);
     int Read(void *Data,size_t Size);
     void Seek(int64 Offset,int Method);
     int64 Tell();
     void QOpenUnload() {QOpen.Unload();}
     void SetProhibitQOpen(bool Mode) {ProhibitQOpen=Mode;}
+#pragma clang diagnostic pop
 #endif
 
     BaseBlock ShortBlock;

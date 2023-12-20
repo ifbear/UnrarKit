@@ -7,7 +7,6 @@
 //
 
 #import "URKArchiveTestCase.h"
-#import "UnrarKit_Tests-Swift.h"
 
 #import <zlib.h>
 
@@ -41,8 +40,7 @@ static NSURL *originalLargeArchiveURL;
                            @"Test File A.txt",
                            @"Test File B.jpg",
                            @"Test File C.m4a",
-                           @"bin/arm/rar",
-                           @"bin/x64/rar"];
+                           @"bin/rar"];
     
     NSArray *unicodeFiles = @[@"Ⓣest Ⓐrchive.rar",
                               @"Test File Ⓐ.txt",
@@ -275,17 +273,9 @@ static NSURL *originalLargeArchiveURL;
         archiveFileName = [uniqueString stringByAppendingPathExtension:@"rar"];
     }
     
-    NSString *binPath;
-    
-    if ([self.machineHardwareName isEqualTo:@"arm64"]) {
-        binPath = @"Test Data/bin/arm";
-    } else {
-        binPath = @"Test Data/bin/x64";
-    }
-    
     NSURL *rarExec = [[NSBundle bundleForClass:[self class]] URLForResource:@"rar"
                                                               withExtension:nil
-                                                               subdirectory:binPath];
+                                                               subdirectory:@"Test Data/bin"];
     NSURL *archiveURL = [self.tempDirectory URLByAppendingPathComponent:archiveFileName];
     
     NSMutableArray *rarArguments = [NSMutableArray arrayWithArray:@[@"a", @"-ep", archiveURL.path]];

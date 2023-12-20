@@ -1,12 +1,5 @@
 # UnrarKit CHANGELOG
 
-## 2.11
-
-* Fixed a header name conflict with Realm (Issue #90)
-* Incorrect passwords in RAR5 archives now produce a specific and helpful error message (PR #101 - Thanks to [@gpotari](https://github.com/gpotari) for the idea and implementation!)
-* Updated to v6.1.7 of UnRAR library (PR #103 - Thanks to [@gpotari](https://github.com/gpotari) )
-
-
 ## 2.10
 
 * Added method (`checkDataIntegrityIgnoringCRCMismatches:`) to prompt user for a decision on whether or not to ignore CRC mismatches (Issue #82)

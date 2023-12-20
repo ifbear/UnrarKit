@@ -62,7 +62,8 @@
     
     // MSDOS Date Format Parsing specified at this URL:
     // http://www.cocoanetics.com/2012/02/decompressing-files-into-memory/
-    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeclaration-after-statement"
     int year = ((dosTime>>25) & 127) + 1980; // 7 bits
     int month = (dosTime>>21) & 15;          // 4 bits
     int day = (dosTime>>16) & 31;            // 5 bits
@@ -79,6 +80,7 @@
     components.second = second;
     
     return [[NSCalendar currentCalendar] dateFromComponents:components];
+#pragma clang diagnostic pop
 }
 
 @end

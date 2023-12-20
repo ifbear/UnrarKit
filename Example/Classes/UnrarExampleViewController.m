@@ -154,39 +154,40 @@ static void *ProgressObserverContext = &ProgressObserverContext;
 
 - (void)updateProgress:(float)progress {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [self.extractionProgressView setProgress:progress animated:progress > 0];
+        [self.extractionProgressView setProgress:progress animated:YES];
     }];
 }
 
 - (NSURL *)createLargeArchive {
     [self reportError:@""];
+    [self updateExtractionStep:@"Creating large text file…"];
+
+    [self updateProgress:0];
+    
+    NSURL *largeFile = [self randomTextFileOfLength:100000000];
+    
+    if (!largeFile) {
+        [self reportError:@"Failed to create large text file"];
+        return nil;
+    }
+    
+    [self updateProgress:0];
+    
+    [self updateExtractionStep:@"Compressing large text file…"];
 
     // Create archive
     NSURL *archiveURL = self.largeArchiveURL;
     
     if (![archiveURL checkResourceIsReachableAndReturnError:nil]) {
-        [self updateExtractionStep:@"Creating large text file…"];
-
-        [self updateProgress:0];
-        
-        NSURL *largeFile = [self randomTextFileOfLength:100000000];
-        
-        if (!largeFile) {
-            [self reportError:@"Failed to create large text file"];
-            return nil;
-        }
-        
-        [self updateProgress:0];
-
         [self updateExtractionStep:@"No archive"];
         [self reportError:
          @"The large archive has not been created yet. A Terminal command "
-         "has been copied to the clipboard. Press ⌘V to paste it into a "
-         "prompt in the UnrarKit source directory, paste it and run. Then "
-         "click the button again"];
+         "has been copied to the clipboard. Press ⌘C to copy it out "
+         "of the Simulator. From a prompt at the UnrarKit/Example "
+         "directory, paste it and run"];
         
         UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-        pasteboard.string = [NSString stringWithFormat:@"./Example/makeLargeArchive.sh \"%@\"", largeFile.path];
+        pasteboard.string = largeFile.path;
 
         return nil;
     }
@@ -213,11 +214,9 @@ static void *ProgressObserverContext = &ProgressObserverContext;
     for (NSUInteger i = 0; i < numberOfCharacters; i++) {
         uint32_t charIndex = arc4random_uniform((uint32_t)letterCount);
         [randomString appendFormat:@"%C", [letters characterAtIndex:charIndex]];
-        
-        if (i % 100 == 0) {
-            float progress = i / (float)numberOfCharacters;
-            [self updateProgress:progress];
-        }
+    
+        float progress = i / (float)numberOfCharacters;
+        [self updateProgress:progress];
     }
     
     NSError *error = nil;
